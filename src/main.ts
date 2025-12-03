@@ -36,7 +36,6 @@ async function start() {
     });
     app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     app.use(cookieParser());
     app.setGlobalPrefix('api');
 
