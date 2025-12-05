@@ -10,11 +10,6 @@ export class BotUpdate {
     await this.botService.start(ctx);
   }
 
-  @On('video')
-  onVideo(@Ctx() ctx: Context) {
-    this.botService.onVideo(ctx);
-  }
-
   @Command('new_channel')
   async newChannel(@Ctx() ctx: Context) {
     await this.botService.newChannel(ctx);

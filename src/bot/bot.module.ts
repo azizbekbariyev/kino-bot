@@ -13,9 +13,10 @@ import { LoadingCinemaService } from './user/loading-cinema/loading-cinema.servi
 import { LoadingCinemaUpdate } from './user/loading-cinema/loading-cinema.update';
 import { Channel } from './models/channel.model';
 import { JoinChannel } from './models/join_channel.model';
+import { Cinema } from './models/cinema.model';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Channel, JoinChannel])],
+  imports: [TypeOrmModule.forFeature([User, Channel, JoinChannel, Cinema])],
   controllers: [],
   providers: [
     BotService,

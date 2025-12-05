@@ -21,6 +21,12 @@ export class User {
   })
   role: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  step_one: string | null;
+
+  @Column({ type: 'varchar', nullable: true })
+  step_two: string | null;
+
   @OneToMany(() => JoinChannel, (joinChannel) => joinChannel.user)
   join_channels: JoinChannel[];
 }

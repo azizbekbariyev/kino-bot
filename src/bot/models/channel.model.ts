@@ -9,10 +9,14 @@ export class Channel {
   @Column()
   channel_name: string;
 
-  @Column({
-    type: 'bigint',
-  })
+  @Column()
   channel_id: string;
+
+  @Column({
+    type: 'enum',
+    enum: ['public', 'private'],
+  })
+  type: string;
 
   @OneToMany(() => JoinChannel, (joinChannel) => joinChannel.channel)
   join_channels: JoinChannel[];

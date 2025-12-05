@@ -9,5 +9,14 @@ export class Cinema {
   file_id: string;
 
   @Column()
-  code: string;
+  code: number;
+
+  @Column()
+  install_count: number;
+
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  created_at: Date;
 }

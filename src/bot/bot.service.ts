@@ -6,17 +6,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserService } from './user/user/user.service';
 import { AdminService } from './admin/admin/admin.service';
-import { Channel } from './models/channel.model';
+import { LoadingCinemaService } from './user/loading-cinema/loading-cinema.service';
 
 @Injectable()
 export class BotService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Channel)
-    private readonly channelRepository: Repository<Channel>,
     private readonly userService: UserService,
     private readonly adminService: AdminService,
+    private readonly loadingCinemaService: LoadingCinemaService,
   ) {}
 
   async start(@Ctx() ctx: Context) {
@@ -40,13 +39,23 @@ export class BotService {
     }
   }
 
-  onVideo(@Ctx() ctx: Context) {
-    console.log(ctx.message);
-  }
-
   async newChannel(@Ctx() ctx: Context) {
+    const user = await this.userRepository.findOne({
+      where: { telegram_id: ctx.from!.id.toString() },
+    });
+
+    await this.userRepository.save({
+      ...user,
+      step: 'new_channel',
+    });
+
+    await this.userRepository.update(
+      { telegram_id: ctx.from!.id.toString() },
+      { step_one: 'new_channel' },
+    );
+
     await ctx.reply(
-      "Kanalingiz yopiq bo'lsa post tashlang, agar ochiq bo'lsa @bilan yuboring.",
+      "Kanalingiz yopiq bo'lsa post tashlang, agar ochiq bo'lsa @ bilan yuboring.",
     );
   }
 
@@ -58,7 +67,7 @@ export class BotService {
     if (user?.role == 'admin') {
       await this.adminService.text(ctx);
     } else {
-      await this.userService.text(ctx);
+      await this.loadingCinemaService.text(ctx);
     }
   }
 }
